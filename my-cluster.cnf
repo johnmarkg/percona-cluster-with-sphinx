@@ -1,0 +1,65 @@
+[mysqld]
+
+
+# GENERAL #
+basedir 			= /usr/local/Percona-XtraDB-Cluster-5.5.29
+default_storage_engine         	= InnoDB
+socket                         	= /home/percona-cluster/mysql.sock
+pid_file                       	= /home/percona-cluster/mysql.pid
+tmpdir 				= /home/percona-cluster/tmp
+
+# DATA STORAGE #
+datadir 			= /home/percona-cluster/data
+
+# NETWORKING #
+#skip-networking
+#bind-address                   = 127.0.0.1
+port				= 3307
+
+server_id			= 1001
+binlog_format			= ROW
+log_bin				= /home/percona-cluster/data/mysql-bin
+
+wsrep_cluster_address		= gcomm://
+wsrep_provider			= /usr/lib/galera/libgalera_smm.so
+wsrep_slave_threads		= 2
+wsrep_cluster_name		= ipcheckups
+wsrep_sst_method		= xtrabackup
+wsrep_node_name			= ip-208-90-214-98
+
+# REPLICATION #
+#read_only                      = 1
+skip_slave_start 	        = 1
+log_slave_updates               = 1
+relay_log                       = /home/percona-cluster/data/relay-bin
+slave_net_timeout               = 60
+sync_master_info                = 1
+sync_relay_log                  = 1
+sync_relay_log_info             = 1
+
+# CACHES AND LIMITS #
+tmp_table_size                 	= 32M
+max_heap_table_size            	= 32M
+query_cache_type               	= 0
+query_cache_size               	= 0
+max_connections                	= 500
+thread_cache_size              	= 50
+open_files_limit               	= 65535
+table_definition_cache         	= 1024
+table_open_cache               	= 2048
+
+# INNODB #
+innodb_flush_method            	= O_DIRECT
+innodb_log_files_in_group      	= 2
+innodb_flush_log_at_trx_commit 	= 1
+innodb_file_per_table          	= 1
+innodb_locks_unsafe_for_binlog 	= 1
+innodb_autoinc_lock_mode	= 2
+innodb_buffer_pool_size		= 400M
+innodb_log_file_size		= 256M
+
+# LOGGING #
+log_error                      = /home/percona-cluster/mysql-error.log
+log_queries_not_using_indexes  = 1
+slow_query_log                 = 1
+slow_query_log_file            = /home/percona-cluster/mysql-slow.log
