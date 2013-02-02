@@ -18,17 +18,24 @@ SPHINX_FILE=${SPHINX_URL##http*/}
 SPHINX_SRC=${SPHINX_FILE%%\.tar\.gz*}
 GALERA_SRC=${GALERA_URL##http*/}
 
+
+# Remove old src dir
+cd ~
+rm -fr $PERCONA_SRC
+rm -fr $SPHINX_SRC
+
+
 # Install galera lib ( /usr/lib/galera/libgalera_smm.so)
 cd ~
 echo "----------------------------------------DL galera lib: wget $GALERA_URL"
-#wget $GALERA_URL
+wget $GALERA_URL
 echo "----------------------------------------install galera lib: dpkg -i $GALERA_SRC"
 sudo dpkg -i $GALERA_SRC
 
 # Download and extract sphinx
 cd ~
 echo "----------------------------------------DL sphinx: wget $SPHINX_URL"
-#wget $SPHINX_URL
+wget $SPHINX_URL
 echo "----------------------------------------expand sphinx src: wget $SPHINX_FILE"
 tar xvfz $SPHINX_FILE
 
@@ -36,7 +43,7 @@ tar xvfz $SPHINX_FILE
 #Install percona cluster
 cd ~
 echo "----------------------------------------DL percona: wget $PERCONA_URL"
-#wget $PERCONA_URL
+wget $PERCONA_URL
 echo "----------------------------------------expand percona src: wget $PERCONA_FILE"
 tar xvfz $PERCONA_FILE
 echo "----------------------------------------cd into percona src: cd $PERCONA_SRC"
@@ -64,3 +71,10 @@ sudo ./scripts/mysql_install_db --defaults-file=$PERCONA_CNF
 sudo cp -R $MYSQL_USER_TABLES "$PERCONA_BASE_DIR/data/" 
 sudo chown -R mysql:mysql $PERCONA_BASE_DIR
 
+# Cleanup
+cd ~
+rm -fr $PERCONA_SRC
+rm -fr "$PERCONA_FILE"*
+rm -fr $SPHINX_SRC
+rm -fr "$SPHINX_FILE"*
+rm -fr "$GALERA_SRC"*
