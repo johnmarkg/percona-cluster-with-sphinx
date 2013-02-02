@@ -76,7 +76,8 @@ sudo chown -R mysql:mysql $PERCONA_BASE_DIR
 
 # install sphinx
 echo "----------------------------------------build and install sphinx"
-cd "~/$SPHINX_SRC"
+cd ~
+cd $SPHINX_SRC
 ./configure --prefix="$SPHINX_DEST" --with-mysql="$PERCONA_DEST" --enable-id64
 make
 sudo make install
