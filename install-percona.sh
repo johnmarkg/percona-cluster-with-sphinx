@@ -5,7 +5,7 @@ PERCONA_URL="http://www.percona.com/redir/downloads/Percona-XtraDB-Cluster/LATES
 SPHINX_URL="http://sphinxsearch.com/files/sphinx-2.0.6-release.tar.gz"
 GALERA_URL="https://launchpad.net/galera/2.x/23.2.2/+download/galera-23.2.2-amd64.deb"
 
-PERCONA_DEST=/usr/local/percona-cluster-5.5.29
+
 PERCONA_BUILD_FILE="BUILD/compile-amd64-wsrep"
 PERCONA_BASE_DIR=/home/percona-cluster/
 PERCONA_CNF=/etc/mysql/my-cluster.cnf
@@ -17,6 +17,9 @@ PERCONA_SRC=${PERCONA_FILE%%\.tar\.gz*}
 SPHINX_FILE=${SPHINX_URL##http*/}
 SPHINX_SRC=${SPHINX_FILE%%\.tar\.gz*}
 GALERA_SRC=${GALERA_URL##http*/}
+
+PERCONA_DEST="/usr/local/$PERCONA_SRC"
+SPHINX_DEST="/usr/local/$SPHINX_SRC"
 
 
 # Remove old src dir
@@ -70,6 +73,13 @@ cd $PERCONA_DEST
 sudo ./scripts/mysql_install_db --defaults-file=$PERCONA_CNF
 sudo cp -R $MYSQL_USER_TABLES "$PERCONA_BASE_DIR/data/" 
 sudo chown -R mysql:mysql $PERCONA_BASE_DIR
+
+# install sphinx
+echo "----------------------------------------build and install sphinx"
+cd "~/$SPHINX_SRC"
+./configure --prefix="$SPHINX_DEST" --with-mysql="$PERCONA_DEST" --enable-id64
+make
+sudo make install
 
 # Cleanup
 cd ~
