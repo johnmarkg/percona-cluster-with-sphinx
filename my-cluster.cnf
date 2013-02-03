@@ -24,7 +24,7 @@ wsrep_cluster_address		= gcomm://
 wsrep_provider			= /usr/lib/galera/libgalera_smm.so
 wsrep_slave_threads		= 2
 wsrep_cluster_name		= ipcheckups
-wsrep_sst_method		= xtrabackup
+wsrep_sst_method		= rsync
 wsrep_node_name			= ip-208-90-214-98
 
 # REPLICATION #
