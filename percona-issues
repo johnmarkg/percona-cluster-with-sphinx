@@ -1,0 +1,20 @@
+percona cluster issues
+
+
+"view# -1: non-Primary" in log:
+  SET GLOBAL wsrep_provider_options='pc.bootstrap=1'; 
+
+
+restart crased node withou sst:
+  http://www.mysqlperformanceblog.com/2013/01/31/feature-in-details-incremental-state-transfer-after-a-node-crash-in-percona-xtradb-cluster/
+  $>cat DATA_DIR/grastate.dat
+  if "seqno: -1" then node did crash and you want to edit grastate.dat
+    $>mysqld_safe –wsrep-recover
+    find line in error.log: WSREP: Recovered position {uuid}:{seqno}
+    $>sudo vim DATA_DIR/grastate.dat
+    replace 'seqno' and 'uuid' entries
+    restart node
+  else restart node and it will be OK
+
+  
+   
